@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TibetanVocabulary</string>
+
+    <string name="next_button">Suivant</string>
+    <string name="prev_button">Précédent</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>
