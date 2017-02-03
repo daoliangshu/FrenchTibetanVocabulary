@@ -34,7 +34,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String DB_PATH;
     private static final String DB_NAME = "fr_tb_dic.db";
     private Context myContext;
-    public DBHelper(Context context) throws SQLException{
+
+    public DBHelper(Context context) throws SQLException {
         super(context, DB_NAME, null, 3);
         myContext = context;
         DB_PATH = myContext.getFilesDir().getPath();
@@ -105,32 +106,32 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<HashMap <String, String>> getTrans(String colWord) {
+    public ArrayList<HashMap<String, String>> getTrans(String colWord) {
         return getTransByStartWith(colWord, 0, 0);
     }
 
-    public byte[] getAudioBytes(int wordInt){
+    public byte[] getAudioBytes(int wordInt) {
         Cursor c = myDB.rawQuery("SELECT " +
-                    COL_OGG +
-                    " FROM " + TB_BASIC + " WHERE _id=" + wordInt,
+                        COL_OGG +
+                        " FROM " + TB_BASIC + " WHERE _id=" + wordInt,
                 null);
-        if(!c.moveToFirst())return null;
+        if (!c.moveToFirst()) return null;
         byte[] res = c.getBlob(0);
         return res;
     }
 
-    public ArrayList<HashMap <String, String>> getTransByStartWith(String colWord,
-                                                                   int mode,
-                                                                   int lessonIndex) {
-        String query = "SELECT "+
+    public ArrayList<HashMap<String, String>> getTransByStartWith(String colWord,
+                                                                  int mode,
+                                                                  int lessonIndex) {
+        String query = "SELECT " +
                 COL_ID + ", " +
                 COL_TRANS + ", " + COL_PHON + ", " + COL_WORD +
                 " FROM " + TB_BASIC;
-        if(mode == 1)
-                query += " WHERE " + COL_WORD + " LIKE '" + colWord + "%' ";
+        if (mode == 1)
+            query += " WHERE " + COL_WORD + " LIKE '" + colWord + "%' ";
         else
             query += " WHERE " + COL_WORD + "=`" + colWord;
-        if(lessonIndex > 0)
+        if (lessonIndex > 0)
             query += " AND " + COL_LESSON + "=" + lessonIndex;
         query += ";";
         Cursor c = myDB.rawQuery(query, null);
@@ -146,7 +147,6 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
         return resList;
     }
-
 
 
 }
