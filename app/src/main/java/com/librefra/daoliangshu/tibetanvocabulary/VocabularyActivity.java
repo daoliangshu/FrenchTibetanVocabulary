@@ -1,132 +1,84 @@
 package com.librefra.daoliangshu.tibetanvocabulary;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
-public class VocabularyActivity extends AppCompatActivity {
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static final boolean AUTO_HIDE = true;
 
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+public class VocabularyActivity extends AppCompatActivity {
+
     private MediaPlayer mp = null;
 
-    /**
-     * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
-     */
-    private static final int UI_ANIMATION_DELAY = 300;
-    private final Handler mHideHandler = new Handler();
     private View mContent;
     private TextView mWordView;
     private TextView mTransView;
     private TextView mPhonView;
+    private TextView mPhonInfoView;
     private DBHelper dbHelper = null;
     private ListView listView;
     private int currentLesson = 1;
 
-    private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
-        @Override
-        public void run() {
-            // Delayed removal of status and navigation bar
-
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-            mContent.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
-    };
     private View mControlsView;
-    private final Runnable mShowPart2Runnable = new Runnable() {
-        @Override
-        public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.show();
-            }
-            mControlsView.setVisibility(View.VISIBLE);
-        }
-    };
     private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
-
     private ArrayList<HashMap<String, String>> vocList;
     private int curVocIndex = -1;
+
+
+    //pager
+    private static final int NUM_PAGES = 3;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_vocabulary);
+
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContent = findViewById(R.id.content_view);
-        mWordView = (TextView)findViewById(R.id.word_content);
-        mTransView = (TextView)findViewById(R.id.trans_content);
-        mPhonView = (TextView)findViewById(R.id.phonetic_content);
+        mWordView = (TextView) findViewById(R.id.word_content);
+        mTransView = (TextView) findViewById(R.id.trans_content);
+        mPhonView = (TextView) findViewById(R.id.phonetic_content);
         String ava = "";
-        for(Locale a: Locale.getAvailableLocales()){
-            ava += " "+ a.toString();
+        for (Locale a : Locale.getAvailableLocales()) {
+            ava += " " + a.toString();
         }
         Log.i("LOCAL_AVAILABLE: ", ava);
 
@@ -138,34 +90,28 @@ public class VocabularyActivity extends AppCompatActivity {
             }
         });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.next_button).setOnTouchListener(mDelayHideTouchListener);
-
-
         dbHelper = null;
-        try{
+        try {
             dbHelper = new DBHelper(getApplicationContext());
             vocList = dbHelper.getTransByStartWith("", 1, 1);
-            if(vocList != null && vocList.size() > 0)curVocIndex = 0;
-        } catch(SQLException sqle){
+            if (vocList != null && vocList.size() > 0) curVocIndex = 0;
+        } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
         mp = new MediaPlayer();
-        Button mSpeakButton = (Button)findViewById(R.id.speack_button);
+        Button mSpeakButton = (Button) findViewById(R.id.speack_button);
         mSpeakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dbHelper == null || curVocIndex < 0)return;
+                if (dbHelper == null || curVocIndex < 0) return;
                 byte[] ba = dbHelper.getAudioBytes(
-                                     Integer.parseInt(vocList.get(curVocIndex).
-                                             get(DBHelper.COL_ID)));
+                        Integer.parseInt(vocList.get(curVocIndex).
+                                get(DBHelper.COL_ID)));
 
 
                 try {
-                    File file =  new File(getFilesDir()+
-                                            "/temp_file.wav");
+                    File file = new File(getFilesDir() +
+                            "/temp_file.wav");
 
 
                     FileOutputStream fos = openFileOutput("temp_file.wav", Context.MODE_PRIVATE);
@@ -176,41 +122,41 @@ public class VocabularyActivity extends AppCompatActivity {
                     mp.reset();
                     mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         public void onPrepared(MediaPlayer mPlayer) {
-                            Log.d("SMP","    Mediaplayer ready (preparation done). Starting reproduction");
+                            Log.d("SMP", "    Mediaplayer ready (preparation done). Starting reproduction");
                             mPlayer.start();
-                            Log.d("SMP","    Mediaplayer ready (preparation done). Done!");
+                            Log.d("SMP", "    Mediaplayer ready (preparation done). Done!");
                         }
                     });
 
                     mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     //mp.setDataSource(fos.getFD());
                     Log.i("Path: ", getFilesDir().getAbsolutePath());
-                    mp.setDataSource(getFilesDir().getAbsolutePath()+"/temp_file.wav");
+                    mp.setDataSource(getFilesDir().getAbsolutePath() + "/temp_file.wav");
                     mp.prepare();
-                }catch(IOException ioe){
+                } catch (IOException ioe) {
                     ioe.printStackTrace();
                 }
             }
         });
-        Button nextButton = (Button)findViewById(R.id.next_button);
+        Button nextButton = (Button) findViewById(R.id.next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(curVocIndex >= 0){
-                    curVocIndex = (curVocIndex+1)%vocList.size();
+                if (curVocIndex >= 0) {
+                    curVocIndex = (curVocIndex + 1) % vocList.size();
                     mTransView.setText(vocList.get(curVocIndex).get(DBHelper.COL_TRANS));
                     mWordView.setText(vocList.get(curVocIndex).get(DBHelper.COL_WORD));
                     mPhonView.setText(vocList.get(curVocIndex).get(DBHelper.COL_PHON));
                 }
             }
         });
-        Button prevButton = (Button)findViewById(R.id.prev_button);
+        Button prevButton = (Button) findViewById(R.id.prev_button);
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(curVocIndex >= 0){
-                    curVocIndex = curVocIndex-1;
-                    if(curVocIndex < 0)curVocIndex = vocList.size()-1;
+                if (curVocIndex >= 0) {
+                    curVocIndex = curVocIndex - 1;
+                    if (curVocIndex < 0) curVocIndex = vocList.size() - 1;
                     mTransView.setText(vocList.get(curVocIndex).get(DBHelper.COL_TRANS));
                     mWordView.setText(vocList.get(curVocIndex).get(DBHelper.COL_WORD));
                     mPhonView.setText(vocList.get(curVocIndex).get(DBHelper.COL_PHON));
@@ -220,7 +166,7 @@ public class VocabularyActivity extends AppCompatActivity {
 
 
         //List view
-        listView = (ListView)findViewById(R.id.list);
+        listView = (ListView) findViewById(R.id.list);
         //Array to show in listView:
         String[] values = new String[]{
                 "Leçon 0",
@@ -241,7 +187,7 @@ public class VocabularyActivity extends AppCompatActivity {
                 //Clicked item index
                 int itemPosition = position;
                 //Clicked item value
-                String itemValue = (String)listView.getItemAtPosition(itemPosition);
+                String itemValue = (String) listView.getItemAtPosition(itemPosition);
                 //Load voc according to lesson selected
                 int indexLesson = itemValue.lastIndexOf(" ");
                 currentLesson = Integer.parseInt(itemValue.substring(indexLesson).trim());
@@ -249,16 +195,38 @@ public class VocabularyActivity extends AppCompatActivity {
                 setVocList(currentLesson);
             }
         });
-    }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
 
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
+        //Phonetic info view ( accessible via flipper)
+        mPhonInfoView = (TextView) findViewById(R.id.phonetic_content);
+        Spanned infoContent = Html.fromHtml(getString(R.string.prefix_tha));
+        mPhonInfoView.setText(infoContent);
+
+        //Flipper
+        final ViewFlipper flipper = (ViewFlipper) findViewById(R.id.view_flipper);
+        Button buttonBack0 = (Button) findViewById(R.id.button_back0);
+        Button buttonBack1 = (Button) findViewById(R.id.button_back1);
+        buttonBack0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipper.setDisplayedChild(1);
+            }
+        });
+        buttonBack1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipper.setDisplayedChild(0);
+            }
+        });
+
+        //View Pager
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+
+
     }
 
     private void toggle() {
@@ -269,56 +237,92 @@ public class VocabularyActivity extends AppCompatActivity {
         }
     }
 
-    private void setVocList(int lessonIndex){
-        try{
+    private void setVocList(int lessonIndex) {
+        try {
             curVocIndex = -1;
-            if(dbHelper == null)
+            if (dbHelper == null)
                 dbHelper = new DBHelper(getApplicationContext());
             vocList = dbHelper.getTransByStartWith("", 1, lessonIndex);
-            if(vocList != null && vocList.size() > 0){
+            if (vocList != null && vocList.size() > 0) {
                 curVocIndex = 0;
                 mTransView.setText(vocList.get(curVocIndex).get(DBHelper.COL_TRANS));
                 mWordView.setText(vocList.get(curVocIndex).get(DBHelper.COL_WORD));
                 mPhonView.setText(vocList.get(curVocIndex).get(DBHelper.COL_PHON));
             }
-
-        } catch(SQLException sqle){
+        } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
     }
 
     private void hide() {
-        // Hide UI first
-        //ActionBar actionBar = getSupportActionBar();
-        //if (actionBar != null) {
-        //    actionBar.hide();
-        //}
         mControlsView.setVisibility(View.GONE);
         mVisible = false;
-
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable);
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
     }
 
-    @SuppressLint("InlinedApi")
     private void show() {
-        // Show the system bar
-        //mTransView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        //        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mVisible = true;
-
-        // Schedule a runnable to display UI elements after a delay
-        mHideHandler.removeCallbacks(mHidePart2Runnable);
-        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
+        mControlsView.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+
+    @Override
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
+    }
+
+
+    private class SlidePagerAdapter extends FragmentStatePagerAdapter {
+        public SlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            SlidePageFragment res = new SlidePageFragment();
+            switch (position) {
+                case 0:
+                    try {
+                        InputStream is = getAssets().open("phon_info/prefix_tha");
+                        BufferedReader in =
+                                new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                        String text = "";
+                        String temp;
+                        while ((temp = in.readLine()) != null) {
+                            Log.i("Line", temp);
+                            text += new String(temp.getBytes(), "UTF-8");
+                        }
+                        in.close();
+                        res.setText(text);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 1:
+                    res.setText(getString(R.string.dummy_content));
+                    break;
+                case 2:
+                    res.setText(getString(R.string.speack));
+                    break;
+
+            }
+            return res;
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
     }
 }
+
+
+
+
+

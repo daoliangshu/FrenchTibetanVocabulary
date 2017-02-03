@@ -8,68 +8,108 @@
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <LinearLayout
-        android:id="@+id/content_view"
-        android:orientation="vertical"
-        android:weightSum="1.0"
+    <ViewFlipper
+        android:id="@+id/view_flipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:weightSum="1.0">
+
+        <LinearLayout
+            android:id="@+id/content_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.15"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:background="#F5F5F5"></ListView>
+
+                <Button
+                    android:id="@+id/button_back0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:background="@android:drawable/ic_menu_directions" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/word_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.15"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:textColor="#33b5e5"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/trans_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:textColor="#33b5e5"
+                android:textSize="50sp" />
+
+            <TextView
+                android:id="@+id/phonetic_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:textColor="#33b5e5"
+                android:textSize="50sp" />
+
+            <Button
+                android:id="@+id/speack_button"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:text="@string/speack"
+                android:textColor="#33b2e5"
+                android:textSize="23sp" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.15">
-            <ListView
-                android:id="@+id/list"
-                android:background="#F5F5F5"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </ListView>
+                android:layout_height="0dp"
+                android:layout_weight="0.1">
+
+                <Button
+                    android:id="@+id/button_back1"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/ic_menu_directions" />
+            </LinearLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.9"></android.support.v4.view.ViewPager>
         </LinearLayout>
-        <TextView
-            android:id="@+id/word_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.15"
-            android:gravity="center"
-            android:keepScreenOn="true"
-            android:textColor="#33b5e5"
-            android:textSize="50sp"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:id="@+id/trans_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:keepScreenOn="true"
-            android:text="@string/dummy_content"
-            android:textColor="#33b5e5"
-            android:textSize="50sp"
-            />
-        <TextView
-            android:id="@+id/phonetic_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:keepScreenOn="true"
-            android:text="@string/dummy_content"
-            android:textColor="#33b5e5"
-            android:textSize="50sp"
-            />
-        <Button
-            android:id="@+id/speack_button"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:gravity="center"
-            android:keepScreenOn="true"
-            android:text="@string/speack"
-            android:textColor="#33b2e5"
-            android:textSize="23sp"
-            />
-    </LinearLayout>
+
+
+    </ViewFlipper>
 
 
     <!-- This FrameLayout insets its children based on system windows using
