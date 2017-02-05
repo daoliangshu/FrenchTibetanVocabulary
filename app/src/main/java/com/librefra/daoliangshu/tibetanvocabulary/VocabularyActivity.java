@@ -10,8 +10,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -23,12 +21,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,15 +34,13 @@ public class VocabularyActivity extends AppCompatActivity {
 
     private MediaPlayer mp = null;
 
-    private View mContent;
     private TextView mWordView;
     private TextView mTransView;
     private TextView mPhonView;
-    private TextView mPhonInfoView;
     private DBHelper dbHelper = null;
     private ListView listView;
     private int currentLesson = 1;
-
+    TextView mPhonInfoView;
     private View mControlsView;
     private boolean mVisible;
     private ArrayList<HashMap<String, String>> vocList;
@@ -57,7 +50,6 @@ public class VocabularyActivity extends AppCompatActivity {
     //pager
     private static final int NUM_PAGES = 3;
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
 
 
     @Override
@@ -69,10 +61,9 @@ public class VocabularyActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_vocabulary);
 
-
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContent = findViewById(R.id.content_view);
+        View mContent = findViewById(R.id.content_view);
         mWordView = (TextView) findViewById(R.id.word_content);
         mTransView = (TextView) findViewById(R.id.trans_content);
         mPhonView = (TextView) findViewById(R.id.phonetic_content);
@@ -107,8 +98,6 @@ public class VocabularyActivity extends AppCompatActivity {
                 byte[] ba = dbHelper.getAudioBytes(
                         Integer.parseInt(vocList.get(curVocIndex).
                                 get(DBHelper.COL_ID)));
-
-
                 try {
                     File file = new File(getFilesDir() +
                             "/temp_file.wav");
@@ -174,7 +163,7 @@ public class VocabularyActivity extends AppCompatActivity {
                 "Leçon 2"
         };
         //new Adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line,
                 android.R.id.text1, values);
 
@@ -197,11 +186,6 @@ public class VocabularyActivity extends AppCompatActivity {
         });
 
 
-        //Phonetic info view ( accessible via flipper)
-        mPhonInfoView = (TextView) findViewById(R.id.phonetic_content);
-        Spanned infoContent = Html.fromHtml(getString(R.string.prefix_tha));
-        mPhonInfoView.setText(infoContent);
-
         //Flipper
         final ViewFlipper flipper = (ViewFlipper) findViewById(R.id.view_flipper);
         Button buttonBack0 = (Button) findViewById(R.id.button_back0);
@@ -209,6 +193,7 @@ public class VocabularyActivity extends AppCompatActivity {
         buttonBack0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hide();
                 flipper.setDisplayedChild(1);
             }
         });
@@ -222,7 +207,7 @@ public class VocabularyActivity extends AppCompatActivity {
         //View Pager
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
+        PagerAdapter mPagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
@@ -235,6 +220,10 @@ public class VocabularyActivity extends AppCompatActivity {
         } else {
             show();
         }
+    }
+
+    public DBHelper getDb() {
+        return dbHelper;
     }
 
     private void setVocList(int lessonIndex) {
@@ -264,6 +253,15 @@ public class VocabularyActivity extends AppCompatActivity {
         mControlsView.setVisibility(View.VISIBLE);
     }
 
+    public void pronounceLetter(String phonOrLetter) {
+        if (dbHelper != null) {
+            byte[] audioBytes = dbHelper.getLetterAudioBytes(phonOrLetter);
+            if (audioBytes != null) {
+                StaticUtils.playSound(getApplicationContext(), audioBytes);
+            }
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -286,31 +284,11 @@ public class VocabularyActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             SlidePageFragment res = new SlidePageFragment();
-            switch (position) {
-                case 0:
-                    try {
-                        InputStream is = getAssets().open("phon_info/prefix_tha");
-                        BufferedReader in =
-                                new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                        String text = "";
-                        String temp;
-                        while ((temp = in.readLine()) != null) {
-                            Log.i("Line", temp);
-                            text += new String(temp.getBytes(), "UTF-8");
-                        }
-                        in.close();
-                        res.setText(text);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case 1:
-                    res.setText(getString(R.string.dummy_content));
-                    break;
-                case 2:
-                    res.setText(getString(R.string.speack));
-                    break;
+            String htmlAsText;
 
+            if ((htmlAsText = StaticUtils.
+                    getHtmlAsString(getApplicationContext(), position)) != null) {
+                res.setText(htmlAsText);
             }
             return res;
         }

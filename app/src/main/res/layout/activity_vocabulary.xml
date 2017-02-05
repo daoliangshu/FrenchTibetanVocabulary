@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context="com.librefra.daoliangshu.tibetanvocabulary.VocabularyActivity">
+    tools:context="com.librefra.daoliangshu.tibetanvocabulary.VocabularyActivity"
+    tools:ignore="MergeRootFrame">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -26,19 +26,19 @@
                 android:layout_weight="0.15"
                 android:orientation="horizontal">
 
-                <ListView
-                    android:id="@+id/list"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.9"
-                    android:background="#F5F5F5"></ListView>
-
                 <Button
                     android:id="@+id/button_back0"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.1"
                     android:background="@android:drawable/ic_menu_directions" />
+
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#F5F5F5" />
+
+
             </LinearLayout>
 
             <TextView
@@ -79,7 +79,7 @@
                 android:layout_weight="0.1"
                 android:gravity="center"
                 android:keepScreenOn="true"
-                android:text="@string/speack"
+                android:text="@string/speak"
                 android:textColor="#33b2e5"
                 android:textSize="23sp" />
         </LinearLayout>
@@ -96,7 +96,7 @@
 
                 <Button
                     android:id="@+id/button_back1"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:drawable/ic_menu_directions" />
             </LinearLayout>
@@ -105,7 +105,7 @@
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.9"></android.support.v4.view.ViewPager>
+                android:layout_weight="0.9" />
         </LinearLayout>
 
 

@@ -17,6 +17,8 @@ import java.util.HashMap;
 
 /**
  * Created by daoliangshu on 1/28/17.
+ * Class containing the db connection,
+ * provides methods to get data from db.
  */
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -28,12 +30,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public final static String COL_LESSON = "lesson";
     public final static String COL_OGG = "sound_ogg";
     public final static String TB_BASIC = "basic_dic";
+    private final static String TB_SOUND = "sound_corr";
+    private final static String COL_SOUND = "sound";
+    private final static String COL_LETTER = "letter";
 
-    private DBHelper appDbHelper;
     private SQLiteDatabase myDB;
     private static String DB_PATH;
     private static final String DB_NAME = "fr_tb_dic.db";
-    private Context myContext;
+    private final Context myContext;
 
     public DBHelper(Context context) throws SQLException {
         super(context, DB_NAME, null, 3);
@@ -42,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
         openDB();
     }
 
-    public void openDB() throws SQLException {
+    private void openDB() throws SQLException {
         String path = DB_PATH + "/dic_librefra.db";
         File dbFile = new File(path);
         if (!dbFile.exists()) {
@@ -56,7 +60,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (file.exists() && !file.isDirectory()) {
             myDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
 
-            Log.i("DB", "Opend succesfully !!");
+            Log.i("DB", "Opend db succesfully !!");
 
         } else {
             Log.i("ERR", "File not found");
@@ -110,6 +114,47 @@ public class DBHelper extends SQLiteOpenHelper {
         return getTransByStartWith(colWord, 0, 0);
     }
 
+
+    private boolean entryExist(String table, String colName, String value) {
+        try {
+            String q = "SELECT _id" +
+                    " FROM '" + table + "' WHERE " +
+                    colName + " LIKE '" + value + "'";
+            Cursor c = myDB.rawQuery(q, null);
+            Log.i("query", q);
+            Log.i("count", String.valueOf(c.getCount()));
+            if (c.moveToFirst()) {
+                c.close();
+                return true;
+            }
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public byte[] getLetterAudioBytes(String letterOrPhon) {
+        String q = "SELECT " + COL_SOUND + " FROM " + TB_SOUND +
+                " WHERE <my_col_name>=\"" + letterOrPhon + "\";";
+        if (entryExist(TB_SOUND, COL_PHON, letterOrPhon)) {
+            q = q.replace("<my_col_name>", COL_PHON);
+        } else if (entryExist(TB_SOUND, COL_LETTER, letterOrPhon)) {
+            q = q.replace("<my_col_name>", COL_LETTER);
+        } else return null;
+
+        Cursor c = myDB.rawQuery(q, null);
+        if (!c.moveToFirst()) {
+            c.close();
+            return null;
+        } else {
+            byte[] res = c.getBlob(0);
+            c.close();
+            return res;
+        }
+    }
+
     public byte[] getAudioBytes(int wordInt) {
         Cursor c = myDB.rawQuery("SELECT " +
                         COL_OGG +
@@ -117,6 +162,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 null);
         if (!c.moveToFirst()) return null;
         byte[] res = c.getBlob(0);
+        c.close();
         return res;
     }
 

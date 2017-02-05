@@ -6,7 +6,7 @@ conn = sqlite3.connect("fr_tb_dic.db")
 cursor = conn.cursor()
 q = "SELECT _id, trans FROM basic_dic WHERE lesson=?;"
 res_dic = {}
-for row in cursor.execute(q, ["2",]).fetchall():
+for row in cursor.execute(q, ["3",]).fetchall():
 	res_dic[row[0]] = row[1]
 
 

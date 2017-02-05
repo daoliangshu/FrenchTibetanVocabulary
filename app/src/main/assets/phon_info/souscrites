@@ -1,0 +1,189 @@
+<html>
+<head>
+<style>
+ul{
+	border: 1px solid black;
+	background-color: white;
+	color: "#D8D3CD";
+}
+.pron{
+	border: none;
+	background-color: "#D8D3CD";
+	color: "#B76903";
+}
+</style>
+
+</head>
+
+
+<ul>
+
+
+<li>
+<u>	
+<font size="5" color="green">
+Cominaison avec  - ྱ (forme souscrite de ཡ)
+</font>
+</u>
+<ul>
+
+<li>
+<button  class="pron" type="button" value="kya¯" onclick="pron.performClick(this.value);">
+ཀྱ kya¯ </button>
+<button  class="pron"type="button" value="khya¯" onclick="pron.performClick(this.value);">
+ཁྱ khya¯ </button>
+
+<button  class="pron"type="button" value="khya_" onclick="pron.performClick(this.value);">
+གྱ khya_ </button>
+
+<button class="pron" type="button" value="ca¯" onclick="pron.performClick(this.value);">
+པྱ ca¯ </button>
+
+<button class="pron" type="button" value="cha¯" onclick="pron.performClick(this.value);">
+ཕྱ cha¯ </button>
+
+<button class="pron" type="button" value="cha_" onclick="pron.performClick(this.value);">
+བྱ cha_ </button>
+
+<button class="pron" type="button" value="nya_" onclick="pron.performClick(this.value);">
+མྱ nya_ </button>
+</li>
+
+</ul>
+
+</li>
+
+
+
+
+
+
+
+
+<!-- r -->
+
+
+<li>
+<u>	
+<font size="5" color="green">
+Cominaison avec - ྲ 
+</font> <font size="1">(souscrite de ར)</font>
+</u>
+<ul>
+
+<li>
+<button  class="pron" type="button" value="tra¯" onclick="pron.performClick(this.value);">
+ཀྲ tra¯ </button>
+<button  class="pron"type="button" value="thra¯" onclick="pron.performClick(this.value);">
+ཁྲ thra¯ </button>
+
+<button  class="pron"type="button" value="thra_" onclick="pron.performClick(this.value);">
+གྲ thra_ </button>
+
+<button class="pron" type="button" value="thra_" onclick="pron.performClick(this.value);">
+དྲ thra_ </button>
+
+<button class="pron" type="button" value="tra¯" onclick="pron.performClick(this.value);">
+པྲ cha¯ </button>
+
+<button class="pron" type="button" value="thra¯" onclick="pron.performClick(this.value);">
+ཕྲ thra¯ </button>
+
+<button class="pron" type="button" value="thra_" onclick="pron.performClick(this.value);">
+བྲ thra_ </button>
+
+<button class="pron" type="button" value="ma¯" onclick="pron.performClick(this.value);">
+མྲ ma¯ </button>
+<button class="pron" type="button" value="sha¯" onclick="pron.performClick(this.value);">
+ཤྲ sha¯ </button>
+<button class="pron" type="button" value="sa¯" onclick="pron.performClick(this.value);">
+སྲ sa¯ </button>
+<button class="pron" type="button" value="rha¯" onclick="pron.performClick(this.value);">
+ཧྲ rha¯ </button>
+</li>
+
+</ul>
+
+</li>
+
+
+
+
+<!-- l -->
+
+<li>
+<u>	
+<font size="5" color="green">
+Cominaison avec - ླ 
+</font> <font size="1">(souscrite de ར)</font>
+</u>
+<ul>
+
+<li>Se prononce <button  class="pron" type="button" value="la¯" onclick="pron.performClick(this.value);"> la¯ </button> avec <font size="5">ཀླ གླ བླ རླ སླ </font>
+</li>
+<li>Se prononce 
+<button  class="pron" type="button" value="ta_" onclick="pron.performClick(this.value);"> ta_ </button> avec <font size="5"> ཟླ </font>
+
+</li>
+
+</ul>
+
+</li>
+
+
+
+<!-- w -->
+
+<li>
+<u>	
+<font size="5" color="green">
+Cominaison avec - ླ 
+</font> <font size="1">(souscrite de ར)</font>
+</u>
+<ul>
+
+<li>Se prononce <button  class="pron" type="button" value="ka¯" onclick="pron.performClick(this.value);"> ka¯ </button> , 
+<button  class="pron" type="button" value="ka¯" onclick="pron.performClick(this.value);"> ཀྭ ka¯ </button> , 
+
+<button  class="pron" type="button" value="kha¯" onclick="pron.performClick(this.value);"> ཁྭ kha¯ </button> , 
+
+<button  class="pron" type="button" value="kha_" onclick="pron.performClick(this.value);"> གྭ kha_ </button> , 
+
+<button  class="pron" type="button" value="ca¯" onclick="pron.performClick(this.value);"> ཅྭ ca¯ </button> , 
+
+<button  class="pron" type="button" value="nya¯" onclick="pron.performClick(this.value);"> ཉྭ nya¯ </button> , 
+
+<button  class="pron" type="button" value="ta¯" onclick="pron.performClick(this.value);">  ཏྭ ta¯ </button> , 
+
+<button  class="pron" type="button" value="tha¯" onclick="pron.performClick(this.value);"> དྭ tha¯ </button> , 
+
+<button  class="pron" type="button" value="tsa¯" onclick="pron.performClick(this.value);"> ཙྭ tsa¯ </button> , 
+
+<button  class="pron" type="button" value="tsha¯" onclick="pron.performClick(this.value);"> ཚྭ tsha¯ </button> ,
+<button  class="pron" type="button" value="sha_" onclick="pron.performClick(this.value);"> ཞྭ sha_ </button> ,
+<button  class="pron" type="button" value="sa_" onclick="pron.performClick(this.value);"> ཟྭ sa_ </button> ,
+<button  class="pron" type="button" value="ra_" onclick="pron.performClick(this.value);"> རྭ ra_ </button> ,
+<button  class="pron" type="button" value="la_" onclick="pron.performClick(this.value);"> ལྭ la_ </button> ,
+<button  class="pron" type="button" value="sha¯" onclick="pron.performClick(this.value);"> ཤྭ sha¯ </button> ,
+<button  class="pron" type="button" value="sa¯" onclick="pron.performClick(this.value);"> སྭ sa¯ </button> ,
+<button  class="pron" type="button" value="ha¯" onclick="pron.performClick(this.value);"> ཧྭ ha¯ </button> ,
+
+</li>
+
+</ul>
+
+</li>
+
+
+
+
+
+</ul>
+
+
+
+
+
+
+
+</html>

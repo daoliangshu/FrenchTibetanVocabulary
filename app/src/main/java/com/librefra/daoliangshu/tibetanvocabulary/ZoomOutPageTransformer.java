@@ -5,6 +5,7 @@ import android.view.View;
 
 /**
  * Created by daoliangshu on 2/3/17.
+ * Defines ViewPager animation
  */
 
 public class ZoomOutPageTransformer implements ViewPager.PageTransformer {

@@ -3,7 +3,7 @@
 
     <string name="next_button">Suivant</string>
     <string name="prev_button">Précédent</string>
-    <string name="speack">Ecouter</string>
+    <string name="speak">Ecouter</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
