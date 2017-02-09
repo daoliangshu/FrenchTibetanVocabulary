@@ -11,141 +11,25 @@
     <ViewFlipper
         android:id="@+id/view_flipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1.0">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/content_view"
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_main"
+            android:layout_width="match_parent"
+            android:background="@color/gray_mid"
+            android:layout_height="match_parent" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_info"
+            android:background="@color/gray_mid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.15"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/button_back0"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:drawable/ic_menu_directions" />
-
-                <ListView
-                    android:id="@+id/list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#F5F5F5" />
-
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/word_content"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.15"
-                android:gravity="center"
-                android:keepScreenOn="true"
-                android:textColor="#33b5e5"
-                android:textSize="50sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/trans_content"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:gravity="center"
-                android:keepScreenOn="true"
-                android:textColor="#33b5e5"
-                android:textSize="50sp" />
-
-            <TextView
-                android:id="@+id/phonetic_content"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.2"
-                android:gravity="center"
-                android:keepScreenOn="true"
-                android:textColor="#33b5e5"
-                android:textSize="50sp" />
-
-            <Button
-                android:id="@+id/speack_button"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.1"
-                android:gravity="center"
-                android:keepScreenOn="true"
-                android:text="@string/speak"
-                android:textColor="#33b2e5"
-                android:textSize="23sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.1">
-
-                <Button
-                    android:id="@+id/button_back1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/ic_menu_directions" />
-            </LinearLayout>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.9" />
-        </LinearLayout>
+            android:paddingEnd="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingStart="2dp" />
 
 
     </ViewFlipper>
-
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <Button
-                android:id="@+id/prev_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/prev_button" />
-
-            <Button
-                android:id="@+id/next_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/next_button" />
-
-        </LinearLayout>
-    </FrameLayout>
-
 </FrameLayout>

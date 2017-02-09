@@ -185,9 +185,9 @@ public class DBHelper extends SQLiteOpenHelper {
         while (c.moveToNext()) {
             HashMap<String, String> res = new HashMap<>();
             res.put(COL_ID, c.getString(0));
-            res.put(COL_TRANS, c.getString(1));
-            res.put(COL_PHON, c.getString(2));
-            res.put(COL_WORD, c.getString(3));
+            res.put(COL_TRANS, c.getString(1) != null ? c.getString(1).trim() : c.getString(1));
+            res.put(COL_PHON, c.getString(2) != null ? c.getString(2).trim() : c.getString(2));
+            res.put(COL_WORD, c.getString(3) != null ? c.getString(3).trim() : c.getString(3));
             resList.add(res);
         }
         c.close();

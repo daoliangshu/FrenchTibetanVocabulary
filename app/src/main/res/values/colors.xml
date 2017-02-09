@@ -3,6 +3,17 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorBlueLight">#A7D9F6</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="dark_blue">#040149</color>
+    <color name="gray_mid">#D0CACA</color>
+
+    <color name="blue_gray">#DFDAF3</color>
+    <color name="light_mate_yellow">#E6E38E</color>
+    <color name="dark_dark_blue">#042266</color>
+    <color name="colorTextDay1">#33b2e5</color>
+    <color name="colorTextNight1">#A9A7F0</color>
+
+    <color name="trans_white">#55FFFFFF</color>
 </resources>

@@ -1,0 +1,156 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1.0">
+
+        <ViewFlipper
+            android:id="@+id/word_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.33"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/word_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:textColor="#33b5e5"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:background="@android:drawable/ic_dialog_info"
+                android:gravity="center" />
+        </ViewFlipper>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.33"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_vertical"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/prev_button"
+                        android:background="@drawable/button2"
+                        android:textColor="@color/dark_dark_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="70dp"
+                        android:textAllCaps="false"
+                        android:text="@string/prev_button" />
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="70dp"
+                        android:textColor="@color/dark_dark_blue"
+                        android:id="@+id/next_button"
+                        android:textAllCaps="false"
+                        android:drawable="@drawable/button2"
+                        android:text="@string/next_button" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/button_back0"
+                        android:layout_width="100dp"
+                        android:textAllCaps="false"
+                        android:layout_height="59dp"
+                        android:background="@android:drawable/ic_menu_info_details" />
+
+                    <Button
+                        android:id="@+id/speak_button"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/dark_dark_blue"
+                        android:background="@drawable/button2"
+                        android:keepScreenOn="true"
+                        android:text="@string/speak" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ViewFlipper
+                android:id="@+id/phon_flipper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/phonetic_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:keepScreenOn="true"
+                    android:textColor="#33b5e5"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:background="@android:drawable/ic_dialog_info" />
+            </ViewFlipper>
+        </LinearLayout>
+
+
+        <ViewFlipper
+            android:id="@+id/trans_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.333"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/trans_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:textColor="#33b5e5"
+                android:textSize="50sp" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:background="@android:drawable/ic_dialog_info"
+                android:gravity="center" />
+        </ViewFlipper>
+
+    </LinearLayout>
+</ScrollView>
+
+
+

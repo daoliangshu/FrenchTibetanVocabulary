@@ -1,0 +1,55 @@
+<style>
+h1{
+    background-color: white;
+    color: black;
+}
+
+.small{
+	font-size: small;
+	color: #8E0D0D;
+}
+
+.myh1{
+     padding-left:5px;
+        padding-left:5px;
+    color: #047D20;
+    background-color: #99CAA4;
+    font-size: large;
+    border: 2px solid #098024;
+}
+
+table{
+    margin: 0 auto;
+}
+
+
+
+.big{
+    font-size: large;
+    font-weight:normal
+}
+
+.blue_box{
+    background-color: #A09EEB;
+    color: #34334D;
+}
+
+body{
+    font-size: large;
+    background-color: #D5C8B8;
+    color: #062380;
+}
+
+ul{
+	border: 1px solid black;
+	margin-right:8px;
+	background-color: ECE996;
+	color: #5F2611;
+}
+.pron{
+	border: none;
+	background-color: #D8D3CD;
+	color: #B76903;
+}
+</style>
+

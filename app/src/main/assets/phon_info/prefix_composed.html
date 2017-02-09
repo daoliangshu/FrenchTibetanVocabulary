@@ -1,0 +1,79 @@
+<html>
+
+<!-- high tone is marked by ¯, be carefull using it as it is not
+	the same as ‾ ( leads to errors when querying from db )-->
+<header>
+    %common_style;
+</header>
+
+
+<body>
+<h1> Prononciation: Préfixe + Radicale composée </h1>
+
+
+<!-- Tha_ -->
+%em2; Prononciation avec le préfixe ད :%/em2;
+<ol>
+    <li>
+        <p>Devant %em;ཀ%/em; ou %em;པ%/em; :
+            La prononciation ne change pas.
+        </p>
+    </li>
+    <li>
+        <p>Devant %em;ག%/em;
+            L'aspiration disparait
+        </p>
+    </li>
+    <p>
+        <button %pron; value="kha_">ག kha_</button>
+        mais
+        <button %pron; value="ka_">དག ka_</button>
+    </p>
+    <li><p>Devant <font size="5" color='blue'>ང</font> , <font size="5" color='blue'>མ</font> ou
+        <font size="5" color='blue'>བ</font></p>
+        <p>Passage d'un ton bas à un ton haut </p>
+        <p>&nbsp;ང nga_ mais དང nga¯ , de même མ ma_ mais དམ ma¯ </pa>
+    </li>
+</ol>
+
+
+<!-- Kha_ -->
+
+%em2; Prononciation avec le préfixe ག :%/em2;
+<ol>
+    <li><p>Devant <font size="5" color='blue'>ཅ</font> , <font color='blue'>ཏ</font> , <font
+            color='blue'>ཙ</font> , <font color='blue'>ཞ</font> , <font color='blue'>ཟ</font> ,
+        <font color='blue'>ཤ</font> ou <font color='blue'>ས</font></p>
+        <p>La prononciation ne change pas. </p>
+    </li>
+    <li><p>Devant %em;ད%/em; : l'aspiration disparait
+        <ul>
+            <li>
+                <button %pron; value="tha_"> %em;ད%/em; tha_</button>
+                ->
+                <button %pron; value="ta_"> %em;གད%/em; ta_</button>
+            </li>
+        </ul>
+        </p>
+    </li>
+    <li><p>Devant %em;ཉ%/em;, %em;ན%/em; ou %em;ཡ%/em; :
+        Passage d'un ton bas à un ton haut
+        <ul>
+            <li>
+                <button %pron; value="na_"> %em;ན%/em; na_</button>
+                ->
+                <button %pron; value="na¯">%em;གན%/em; na¯</button>
+            </li>
+            <li>
+                <button %pron; value="nya_"> %em;ཉ%/em; nya_</button>
+                ->
+                <button %pron; value="nya¯">%em;གཉ%/em; nya¯</button>
+            </li>
+        </ul>
+        </p>
+    </li>
+</ol>
+
+
+</body>
+</html>

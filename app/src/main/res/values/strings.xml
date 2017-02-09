@@ -6,4 +6,19 @@
     <string name="speak">Ecouter</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <!-- Settings labels -->
+    <string name="auto_play_sound">Prononcer mot automatiquement</string>
+    <string name="lesson_prompt">Leçon actuelle: </string>
+    <string name="mode_prompt">Passage au mot suivant: </string>
+    <string name="hide_word">Cacher le texte en français</string>
+    <string name="hide_trans">Cacher le texte en tibétain</string>
+    <string name="hide_pron">Cacher la prononciation en tibétain</string>
+    <string name="switch_night_day_mode">Mode jour/nuit</string>
+    <string name="day_active">Mode Jour actif</string>
+    <string name="night_active">Mode Nuit actif</string>
+    <string name="save_settings">Sauvegarder préférences</string>
+
+    <!-- Handle error -->
+    <string name="no_page_found">La page demandée est introuvable.</string>
+    <string name="no_retrieved_value">Pas de valeur</string>
 </resources>

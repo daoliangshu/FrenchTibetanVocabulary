@@ -2,11 +2,37 @@
 
 import os, sqlite3, shutil, re
 
+
+
+def replace_problematic_letters(word):
+	res = word
+	print(word + ' check letters.')
+	if "སླ" in res:
+		res = res.replace("སླ", "བླ")
+	if "སླི" in res:
+		print('found in ' + word)
+		res = res.replace("སླི", "བླི")
+	if "སླེ" in res:
+		res = res.replace("སླེ", "བླུ")
+	if "སླེ" in res:
+		res = res.replace("སླེ", "བླེ")
+
+	if "སློ" in res:
+		res = res.replace("སློ", "བློ")
+	
+	if  '་' in res:
+		print("found " + '་')
+		res.replace('\'', '-')
+
+	return res
+
+
+
 conn = sqlite3.connect("fr_tb_dic.db")
 cursor = conn.cursor()
 q = "SELECT _id, trans FROM basic_dic WHERE lesson=?;"
 res_dic = {}
-for row in cursor.execute(q, ["3",]).fetchall():
+for row in cursor.execute(q, ["2",]).fetchall():
 	res_dic[row[0]] = row[1]
 
 
@@ -27,9 +53,13 @@ for key, value in res_dic.items():
 		v = value.replace(',', '. ')
 	if '(' in value:
 		v = regex.sub('', v)
+
+	
+	v = replace_problematic_letters(v)
+	
 	filename = 'temp_ogg_files/'+ str(key) + '.wav'
 	os.system('ekho -v \'Tibetan\' \"' + v + 
-				'\" -t wav -o \'' + filename + '\' -s -15')
+				'\" -t wav -o \'' + filename + '\' -s -10')
 	print(str(key) + ' <---> ' + str(v))
 	with open(filename, 'rb') as f:
 		ablob = f.read()
@@ -48,6 +78,8 @@ f.write(res[0])
 f.close()
 
 conn.close()
+
+
 
 # Cleaning
 #if os.path.exists('temp_ogg_files'):

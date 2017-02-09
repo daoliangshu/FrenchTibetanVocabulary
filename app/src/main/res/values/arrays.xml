@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lesson_list">
+        <item>Leçon 0</item>
+        <item>Leçon 1</item>
+        <item>Leçon 2</item>
+        <item>Leçon 3</item>
+        <item>Leçon 3</item>
+        <item>Leçon 3</item>
+    </string-array>
+
+    <string-array name="switch_mode_list">
+        <item>Manuel</item>
+        <item>Toutes les 3 secondes</item>
+        <item>Toutes les 5 secondes</item>
+        <item>Toutes les 10 secondes</item>
+        <item>Toutes les 15 secondes</item>
+        <item>Toutes les 30 secondes</item>
+    </string-array>
+
+
+</resources>

@@ -1,16 +1,12 @@
-<!-- fragment_screen_slide_page.xml -->
+<!-- fragment_screen_slide_page.xml
+ This is the fragment to set for displaying
+ infomations (related to phonetic rules, etc)
+ -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- <TextView style="?android:textAppearanceMedium"
-        android:id="@+id/fragment_page"
-        android:padding="16dp"
-        android:lineSpacingMultiplier="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="PAGE" />-->
 
     <WebView
         style="?android:textAppearanceMedium"
